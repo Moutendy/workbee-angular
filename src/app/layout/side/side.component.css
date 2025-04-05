@@ -1,0 +1,5 @@
+.logo-img{
+  height: var(--random-height, 100px);
+  width: var(--random-height, 100px);
+  border-radius: 300px;
+}

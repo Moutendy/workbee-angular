@@ -1,0 +1,21 @@
+
+/* layout.component.css */
+.layout-container {
+  display: flex;
+  min-height: 100vh; /* Prend toute la hauteur écran */
+}
+
+
+
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  padding: 20px;
+}
+
+.content {
+  width: 95%;
+  border-radius: 5px;
+ /* Largeur max du contenu */
+}
