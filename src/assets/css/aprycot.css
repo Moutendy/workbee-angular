@@ -13117,7 +13117,7 @@ th {
   display: block;
   position: fixed;
   width: 100%;
-  max-width: 16.2rem;
+  max-width: 1.2rem;
   top: 0;
   bottom: 0;
   z-index: 910;
@@ -17247,7 +17247,7 @@ form.comment-text input {
           border-radius: 50rem; }
 
 /*
- * Background color 
+ * Background color
  */
 .bg-soft-primary {
   color: #d35f10;

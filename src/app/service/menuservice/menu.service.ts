@@ -1,5 +1,15 @@
 import { Injectable, signal } from '@angular/core';
-import { MenuItem } from '../../model/menu';
+interface MenuItem {
+  title: string;
+  icon?: string;
+  path?: string;
+  svgPaths?: string[];
+  children?: MenuItem[];
+  isActive?: boolean;
+  isDisabled?: boolean;
+  isHeader?: boolean;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -7,50 +17,74 @@ import { MenuItem } from '../../model/menu';
 export class MenuService {
 
   constructor() { }
-  menuItems = signal<MenuItem[]>([
-    {
-      type: 'title',
-      label: 'Home'
-    },
-    {
-      type: 'link',
-      label: 'Dashboard',
-      icon: 'dashboard',
-      route: '/dashboard'
-    },
-    {
-      type: 'title',
-      label: 'Pages'
-    },
-    {
-      type: 'submenu',
-      label: 'Authentication',
-      icon: 'auth',
-      open: false,
-      subItems: [
-        { label: 'Login', route: '/auth/login' },
-        { label: 'Register', route: '/auth/register' },
-        { label: 'Confirm Mail', route: '/auth/confirm-mail' },
-        { label: 'Recover password', route: '/auth/recover-password' }
-      ]
-    },
-    {
-      type: 'submenu',
-      label: 'Users',
-      icon: 'users',
-      open: false,
-      subItems: [
-        { label: 'User Profile', route: '/users/profile' },
-        { label: 'Add User', route: '/users/add' },
-        { label: 'User List', route: '/users/list' }
-      ]
-    },
-    {
-      type: 'link',
-      label: 'Error Page',
-      icon: 'error',
-      route: '/error'
-    }
+  getMenuItems(): MenuItem[] {
+    return [
+      {
+        title: 'Home',
+        isHeader: true,
+        isDisabled: true
+      },
+      {
+        title: 'Dashboard',
+        path: '/home/dashbaord',
 
-  ]);
+        svgPaths: [
+          'M16.0756 2H19.4616C20.8639 2 22.0001 3.14585 22.0001 4.55996V7.97452C22.0001 9.38864 20.8639 10.5345 19.4616 10.5345H16.0756C14.6734 10.5345 13.5371 9.38864 13.5371 7.97452V4.55996C13.5371 3.14585 14.6734 2 16.0756 2Z',
+          'M4.53852 2H7.92449C9.32676 2 10.463 3.14585 10.463 4.55996V7.97452C10.463 9.38864 9.32676 10.5345 7.92449 10.5345H4.53852C3.13626 10.5345 2 9.38864 2 7.97452V4.55996C2 3.14585 3.13626 2 4.53852 2ZM4.53852 13.4655H7.92449C9.32676 13.4655 10.463 14.6114 10.463 16.0255V19.44C10.463 20.8532 9.32676 22 7.92449 22H4.53852C3.13626 22 2 20.8532 2 19.44V16.0255C2 14.6114 3.13626 13.4655 4.53852 13.4655ZM19.4615 13.4655H16.0755C14.6732 13.4655 13.537 14.6114 13.537 16.0255V19.44C13.537 20.8532 14.6732 22 16.0755 22H19.4615C20.8637 22 22 20.8532 22 19.44V16.0255C22 14.6114 20.8637 13.4655 19.4615 13.4655Z'
+        ]
+      },
+      {
+        title: 'Views',
+        isHeader: true,
+        isDisabled: true
+      },
+      {
+        title: 'commandes',
+
+        svgPaths: [
+          'M12.0865 22C11.9627 22 11.8388 21.9716 11.7271 21.9137L8.12599 20.0496C7.10415 19.5201 6.30481 18.9259 5.68063 18.2336C4.31449 16.7195 3.5544 14.776 3.54232 12.7599L3.50004 6.12426C3.495 5.35842 3.98931 4.67103 4.72826 4.41215L11.3405 2.10679C11.7331 1.96656 12.1711 1.9646 12.5707 2.09992L19.2081 4.32684C19.9511 4.57493 20.4535 5.25742 20.4575 6.02228L20.4998 12.6628C20.5129 14.676 19.779 16.6274 18.434 18.1581C17.8168 18.8602 17.0245 19.4632 16.0128 20.0025L12.4439 21.9088C12.3331 21.9686 12.2103 21.999 12.0865 22Z',
+          'M11.3194 14.3209C11.1261 14.3219 10.9328 14.2523 10.7838 14.1091L8.86695 12.2656C8.57097 11.9793 8.56795 11.5145 8.86091 11.2262C9.15387 10.9369 9.63207 10.934 9.92906 11.2193L11.3083 12.5451L14.6758 9.22479C14.9698 8.93552 15.448 8.93258 15.744 9.21793C16.041 9.50426 16.044 9.97004 15.751 10.2574L11.8519 14.1022C11.7049 14.2474 11.5127 14.3199 11.3194 14.3209Z'
+        ],
+        children: [
+          { title: 'cuisine (temps réel)', path: '/home/order/progress' },
+          { title: 'livraisons (suivi)', path: '/home/order/delivery' },
+          { title: 'en cours...', path: '/home/order/follow' }
+        ]
+      },
+      {
+        title: 'stocks',
+        svgPaths: [
+          'M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313M13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A5 5 0 0 0 13 5.698M14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A5 5 0 0 0 13 8.698m0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525'
+        ],
+        children: [
+          { title: 'Alertes ruptures', path: '/home/stock/alter-rupture' },
+          { title: 'Inventaire', path: '/home/stock/inventaire' },
+          { title: 'Approvisionnement', path: '/home/stock/approvisionnement' }
+        ]
+      },
+
+      {
+        title: 'Statistiques',
+        svgPaths: [
+          'M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z'
+        ],
+        children: [
+          { title: 'Ventes par produit', path: '/auth/login' },
+          { title: 'Heures d\'affluence', path: '/auth/register' },
+          { title: 'Performances des promos', path: '/auth/confirm' }
+        ]
+      },
+      {
+        title: 'Livreurs',
+        svgPaths: [
+          'M9 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-.39l1.4 7a2.5 2.5 0 1 1-.98.195l-.189-.938-2.43 3.527A.5.5 0 0 1 9.5 13H4.95a2.5 2.5 0 1 1 0-1h4.287l2.831-4.11L11.09 3H9.5a.5.5 0 0 1-.5-.5M3.915 12a1.5 1.5 0 1 0 0 1H2.5a.5.5 0 0 1 0-1zm8.817-.789A1.499 1.499 0 0 0 13.5 14a1.5 1.5 0 0 0 .213-2.985l.277 1.387a.5.5 0 0 1-.98.196z'
+        ],
+        children: [
+          { title: 'Planning', path: '/home/delivery/ planning' },
+          { title: 'Gestion des shifts', path: '/home/delivery/management' },
+          { title: 'Performances', path: '/home/delivery/performence' }
+        ]
+      },
+    ];
+  }
 }

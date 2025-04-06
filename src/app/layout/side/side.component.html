@@ -470,46 +470,71 @@
       <div class=" navbar-collapse" id="sidebar">
           <!-- Sidebar Menu Start -->
           <ul class="navbar-nav iq-main-menu">
-            @for (category of categories; track category) {
-              @for (item of itemsByCategory(category!); track item.label) {
-            <ng-container >
-              <!-- Title -->
-              <li *ngIf="item.type === 'title'" class="nav-item static-item">
-                <a class="nav-link static-item disabled" href="#" tabindex="-1">
-                  <span class="default-icon">{{ item.label }}</span>
-                  <span class="mini-icon">-</span>
-                </a>
-              </li>
-
-              <!-- Simple Link -->
-              <li *ngIf="item.type === 'link'" class="nav-item">
-                <a class="nav-link" [routerLink]="item.route">
-                  <i class="icon"><!-- SVG ou icône personnalisée ici --></i>
-                  <span class="item-name">{{ item.label }}</span>
-                </a>
-              </li>
-
-              <!-- Submenu -->
-              <li *ngIf="item.type === 'submenu'" class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse"
-                (click)="toggleSubmenu(item)" [attr.aria-expanded]="item.open">
-                  <i class="icon"><!-- SVG ou icône personnalisée ici --></i>
-                  <span class="item-name">{{ item.label }}</span>
-                  <i class="right-icon"><!-- flèche icône ici --></i>
-                </a>
-
-                <ul class="sub-nav collapse" [ngClass]="{ show: item.open }">
-                  <li class="nav-item" *ngFor="let sub of item.subItems">
-                    <a class="nav-link" [routerLink]="sub.route">
-                      <i class="icon"><!-- mini icône ici --></i>
-                      <span class="item-name">{{ sub.label }}</span>
+            @for (item of menuItems; track item.title) {
+              @if (item.isHeader) {
+                <li class="nav-item static-item">
+                  <a class="nav-link static-item disabled" href="#" tabindex="-1">
+                    <span class="default-icon">{{ item.title }}</span>
+                    <span class="mini-icon">-</span>
+                  </a>
+                </li>
+              } @else {
+                <li class="nav-item" [class.sub-nav]="item.children">
+                  @if (!item.children) {
+                    <a class="nav-link" [class.active]="item.isActive" [routerLink]="item.path">
+                      @if (item.svgPaths) {
+                        <i class="icon">
+                          <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            @for (path of item.svgPaths; track path; let i = $index) {
+                              <path [attr.fill-rule]="path.includes('fill-rule') ? 'evenodd' : null"
+                                    [attr.clip-rule]="path.includes('clip-rule') ? 'evenodd' : null"
+                                    [attr.d]="path"
+                                    [attr.opacity]="path.includes('opacity') ? '0.4' : null"
+                                    fill="currentColor"></path>
+                            }
+                          </svg>
+                        </i>
+                      }
+                      <span class="item-name">{{ item.title }}</span>
                     </a>
-                  </li>
-                </ul>
-              </li>
-            </ng-container>
-          }
-          }
+                  }
+
+                  @if (item.children) {
+                    <a class="nav-link" (click)="toggleCollapse(item.title)"
+                       [attr.aria-expanded]="!collapsedStates[item.title]">
+                      <i class="icon">
+                        <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          @for (path of item.svgPaths; track path) {
+                            <path [attr.d]="path" fill="currentColor"></path>
+                          }
+                        </svg>
+                      </i>
+                      <span class="item-name">{{ item.title }}</span>
+                      <i class="right-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </i>
+                    </a>
+
+                    <ul class="sub-nav" [class.collapse]="isCollapsed(item.title)" [class.show]="!isCollapsed(item.title)">
+                      @for (child of item.children; track child.title) {
+                        <li class="nav-item">
+                          <a class="nav-link" [routerLink]="child.path">
+                            <i class="icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                              </svg>
+                            </i>
+                            <span class="item-name">{{ child.title }}</span>
+                          </a>
+                        </li>
+                      }
+                    </ul>
+                  }
+                </li>
+              }
+            }
           </ul>
 
           <!-- Sidebar Menu End -->

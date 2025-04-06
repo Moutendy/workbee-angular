@@ -17,5 +17,6 @@
 .content {
   width: 95%;
   border-radius: 5px;
+  padding-left: 40px
  /* Largeur max du contenu */
 }
