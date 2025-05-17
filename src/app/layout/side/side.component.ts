@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MenuService } from '../../service/menuservice/menu.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -9,15 +10,16 @@ import { MenuService } from '../../service/menuservice/menu.service';
   styleUrl: './side.component.css'
 })
 export class SideComponent {
-   menuService = inject(MenuService);
-  collapsedStates: {[key: string]: boolean} = {};
-  menuItems = this.menuService.getMenuItems();
-  toggleCollapse(menuId: string): void {
-    this.collapsedStates[menuId] = !this.collapsedStates[menuId];
+ router = inject(Router);
+   logout(): void {
+    // Ajoutez ici votre logique de déconnexion
+    this.router.navigate(['/login']);
+
   }
 
+    redirect(url:string): void {
+    // Ajoutez ici votre logique de déconnexion
+    this.router.navigate([url]);
 
-  isCollapsed(menuId: string): boolean {
-    return this.collapsedStates[menuId] ?? true;
   }
 }

@@ -4,13 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { BaseComponent } from './base/base.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SideComponent } from './side/side.component';
+import { FactureComponent } from '../facture/facture.component';
 const routes: Routes = [
   { path: 'home', component: BaseComponent, children: [
-  { path: 'dashbaord',  loadChildren: ()=>import('../dashbaord/dashbaord.module').then(p=>p.DashbaordModule)},
-  { path: 'order',  loadChildren: ()=>import('../order/order.module').then(p=>p.OrderModule)},
-  { path: 'static',  loadChildren: ()=>import('../statistic/statistic.module').then(p=>p.StatisticModule)},
-  { path: 'delivery',  loadChildren: ()=>import('../delivery/delivery.module').then(p=>p.DeliveryModule)},
-  { path: 'stock',  loadChildren: ()=>import('../reserve/reserve.module').then(p=>p.ReserveModule)},
+  { path: 'agent',  loadChildren: ()=>import('../dashbaord/dashbaord.module').then(p=>p.DashbaordModule)},
+{ path: 'facture',   component: FactureComponent, },
+
   ],
 
 },
