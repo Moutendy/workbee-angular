@@ -1,0 +1,21 @@
+.img-cercle {
+  width: 50px;       /* taille personnalisable */
+  height: 50px;      /* doit être égale à width */
+  border-radius: 50%; /* rend l'image circulaire */
+  object-fit: cover;  /* permet de bien remplir le cercle */
+  border: 2px solid #ccc; /* optionnel : bordure grise */
+}
+.btn-bleu {
+  background-color: #007BFF;   /* Bleu */
+  color: white;                /* Texte blanc */
+  border: none;                /* Pas de bordure */
+  padding: 10px 20px;          /* Espace interne */
+  font-size: 16px;             /* Taille du texte */
+  border-radius: 8px;          /* Coins arrondis */
+  cursor: pointer;             /* Curseur main */
+  transition: background-color 0.3s ease;
+}
+
+.btn-bleu:hover {
+  background-color: #0056b3;   /* Bleu foncé au survol */
+}
